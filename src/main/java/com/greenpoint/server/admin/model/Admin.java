@@ -1,6 +1,7 @@
 package com.greenpoint.server.admin.model;
 
 
+import com.greenpoint.server.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE admin SET deleted = true Where id = ?")
-public class Admin {
+public class Admin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

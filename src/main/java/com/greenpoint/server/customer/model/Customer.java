@@ -1,6 +1,7 @@
 package com.greenpoint.server.customer.model;
 
 
+import com.greenpoint.server.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
-public class Customer {
+public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
