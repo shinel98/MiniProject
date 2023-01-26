@@ -1,6 +1,6 @@
 package com.greenpoint.server.level.model;
 
-
+import com.greenpoint.server.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE level SET deleted = true Where id = ?")
-public class Level {
+public class Level extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
