@@ -26,6 +26,23 @@ public class Store extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String userId;
+    private String password;
+
+    @OneToMany(mappedBy = "history", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<History> historyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "point", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Point> pointList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Menu> menuList = new ArrayList<>();
+
+    private String category;
+    private String name;
+    private String img;
+    private double latitude;
+    private double longitude;
 
 
 }
