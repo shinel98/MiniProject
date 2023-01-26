@@ -26,5 +26,9 @@ public class Level extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Customer customer;
+
+    private String name;
 
 }

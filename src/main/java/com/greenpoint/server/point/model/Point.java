@@ -26,5 +26,10 @@ public class Point extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Store store;
+
+    private String name;
+    private int weight;
 
 }
