@@ -19,8 +19,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
-public class Customer {
+@SQLDelete(sql = "UPDATE level SET deleted = true Where id = ?")
+public class Level {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

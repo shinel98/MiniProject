@@ -1,4 +1,4 @@
-package com.greenpoint.server.menu.model;
+package com.greenpoint.server.point.model;
 
 
 import lombok.AllArgsConstructor;
@@ -19,8 +19,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
-public class Customer {
+@SQLDelete(sql = "UPDATE point SET deleted = true Where id = ?")
+public class Point {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

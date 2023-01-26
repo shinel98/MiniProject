@@ -1,4 +1,4 @@
-package com.greenpoint.server.point.controller;
+package com.greenpoint.server.level.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class CustomerController {
+public class LevelController {
 
 }
