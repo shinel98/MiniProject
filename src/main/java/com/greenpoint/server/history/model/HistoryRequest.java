@@ -9,5 +9,4 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HistoryRequest {
     private Long storeId;
-    private
 }
