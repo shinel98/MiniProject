@@ -15,4 +15,5 @@ public class StoreRequest {
     private String image;
     private double latitude;
     private double longitude;
+    private int totalPoint;
 }

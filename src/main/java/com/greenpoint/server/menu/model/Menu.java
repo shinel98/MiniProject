@@ -2,10 +2,7 @@ package com.greenpoint.server.menu.model;
 
 import com.greenpoint.server.common.BaseEntity;
 import com.greenpoint.server.store.model.Store;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -14,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
@@ -31,4 +29,20 @@ public class Menu extends BaseEntity{
     private String name;
     private String image;
     private int price;
+
+
+    public static Menu from(Long sid, MenuRequest request){
+        return Menu.builder()
+                .storeId(sid)
+                .name(request.getName())
+                .image(request.getImage())
+                .price( request.getPrice())
+                .build();
+    }
+
+    public void update(MenuRequest request) {
+        this.name = request.getName();
+        this.price = request.getPrice();
+        this.image = request.getImage();
+    }
 }
