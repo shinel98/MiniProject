@@ -1,6 +1,7 @@
 package com.greenpoint.server.exception;
 
 
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 public class GlobalException extends RuntimeException {
