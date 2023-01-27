@@ -2,10 +2,7 @@ package com.greenpoint.server.point.model;
 
 import com.greenpoint.server.common.BaseEntity;
 import com.greenpoint.server.store.model.Store;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -14,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
@@ -30,4 +28,16 @@ public class Point extends BaseEntity{
     private String name;
     private int weight;
 
+    public static Point from(PointRequest request){
+        return Point.builder()
+                .storeId(request.getStoreId())
+                .name(request.getName())
+                .weight(request.getWeight())
+                .build();
+    }
+
+    public void update(PointRequest request) {
+        this.name = request.getName();
+        this.weight = request.getWeight();
+    }
 }

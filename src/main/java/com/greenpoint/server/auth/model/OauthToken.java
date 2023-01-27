@@ -12,5 +12,5 @@ public class OauthToken { //(1)
     private String scope;
     private int refresh_token_expires_in;
 
-}}
+}
 

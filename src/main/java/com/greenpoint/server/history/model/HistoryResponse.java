@@ -1,5 +1,7 @@
 package com.greenpoint.server.history.model;
 
+import com.greenpoint.server.customer.model.Customer;
+import com.greenpoint.server.customer.service.CustomerService;
 import com.greenpoint.server.store.model.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,12 +23,12 @@ public class HistoryResponse {
     private int usedPoint;
     private int currentPoint;
 
-    public HistoryResponse from(History history){
+
+    public static HistoryResponse from(History history){
         return HistoryResponse.builder()
                 .storeName(history.getStore().getName())
                 .savedPoint(history.getSavedPoint())
                 .usedPoint(history.getUsedPoint())
-                .currentPoint(history.)
                 .build();
     }
 
