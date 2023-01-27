@@ -1,10 +1,9 @@
+
 package com.greenpoint.server.auth.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.greenpoint.server.auth.model.KakaoProfile;
-import com.greenpoint.server.auth.repository.UserRepository;
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
 
 import java.sql.SQLOutput;
 
@@ -23,7 +23,8 @@ import java.util.HashMap;
 @Service
 public class UserService {
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
+
 
     public Object[] saveUser(String token) {
 
@@ -50,6 +51,7 @@ public class UserService {
             Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
             obArr[0] = newUser;
             obArr[1] = false;
+//            customerRepository.save(newUser);
             return obArr;
         }
 
@@ -72,6 +74,34 @@ public class UserService {
         String url = "https://kapi.kakao.com/v2/user/me";
 
         return restTemplate.postForObject(url, request, String.class);
+    }
+    public Boolean getUserInfoByForm(HashMap<String, String> param) {
+        // 닉네임 , 전화번호
+        Customer user;
+        String token = param.get("token");
+        System.out.println("token = " + token);
+        try{
+            user = customerRepository.findByKakaoToken(token);
+            user.setContact(param.get("contact"));
+            user.setNickname(param.get("nickname"));
+//        user = Customer.from(param.get("nickname"), param.get("contact"));
+            user = customerRepository.save(user);
+            if(user == null){
+                return false;
+            }
+        }
+        catch(Exception e){
+            System.out.println("토큰이 다름!");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public int memberDelete(String token) {
+        int result = customerRepository.deleteByKakaoToken(token);
+        return result;
     }
 
     public Boolean getUserInfoByForm(HashMap<String, String> param) {

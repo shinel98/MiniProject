@@ -33,7 +33,7 @@ public class History extends BaseEntity {
 
 
     public static History from(Store store, HistoryRequest request){
-        return History.builder()
+                return History.builder()
                 .customerId(request.getCustomerId())
                 .store(store)
                 .cost(request.getCost())

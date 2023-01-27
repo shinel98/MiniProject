@@ -16,14 +16,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE customer SET deleted = true Where kakaoToken = ?")
+@SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
 public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Id
     @Column(unique = true)
     private String kakaoToken;
 
