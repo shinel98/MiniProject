@@ -20,6 +20,10 @@ import javax.persistence.*;
 @SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
 public class Customer extends BaseEntity {
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

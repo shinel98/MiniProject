@@ -3,6 +3,7 @@ package com.greenpoint.server.history.model;
 
 import com.greenpoint.server.common.BaseEntity;
 import com.greenpoint.server.customer.model.Customer;
+import com.greenpoint.server.store.model.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,13 @@ public class History extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String kakaoToken;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Customer customer;
-
-    private Long storeId;
-    private String historyContent;
+    private Store store;
+    private int cost;
     private int savedPoint;
     private int usedPoint;
 
