@@ -73,6 +73,7 @@ public class UserService {
 
         return restTemplate.postForObject(url, request, String.class);
     }
+
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
         // 닉네임 , 전화번호
         Customer user;
