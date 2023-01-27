@@ -28,7 +28,7 @@ public class Store extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String storeID;
+    private String loginID;
     private String password;
     private String category;
     private String name;

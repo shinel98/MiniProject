@@ -42,4 +42,12 @@ public class Customer extends BaseEntity {
     private int totalPoint;
 
 
+    public void addpoint(int savedPoint) {
+        this.point = this.point + savedPoint;
+        this.totalPoint = this.totalPoint + savedPoint;
+    }
+
+    public void usepoint(int usedPoint) {
+        this.point = this.point - usedPoint;
+    }
 }
