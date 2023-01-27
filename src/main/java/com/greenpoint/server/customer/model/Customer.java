@@ -68,5 +68,12 @@ public class Customer extends BaseEntity {
                 .image(image)
                 .build();
     }
+    public static Customer from (String nickname , String contact) {
+        return Customer.builder()
+                .nickname(nickname)
+                .contact(contact)
+                .build();
+    }
+
 
 }

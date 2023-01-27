@@ -8,4 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     public Customer findByKakaoToken(String kakaoToken);
 
+    @Query("delete from Customer where kakaoToken= :kakaoToken")
+    public int deleteByKakaoToken(String kakaoToken);
+
 }
