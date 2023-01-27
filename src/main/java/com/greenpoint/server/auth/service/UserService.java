@@ -16,6 +16,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLOutput;
 
+import javax.servlet.http.HttpSession;
+import java.sql.SQLOutput;
+import java.util.HashMap;
+
 @Service
 public class UserService {
     @Autowired
@@ -40,7 +44,8 @@ public class UserService {
 
         System.out.println("userInfo" + userInfo);
 
-        Customer user = customerRepository.findByKakaoToken(token);
+        Customer user;
+        user = customerRepository.findByKakaoToken(token);
         if(user == null) {
             Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
             obArr[0] = newUser;
@@ -52,6 +57,7 @@ public class UserService {
         obArr[1] = true;
         return obArr;
     }
+
 
     public String getUserInfoByAccessToken(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
@@ -66,6 +72,34 @@ public class UserService {
         String url = "https://kapi.kakao.com/v2/user/me";
 
         return restTemplate.postForObject(url, request, String.class);
+    }
+    public Boolean getUserInfoByForm(HashMap<String, String> param) {
+        // 닉네임 , 전화번호
+        Customer user;
+        String token = param.get("token");
+        System.out.println("token = " + token);
+        try{
+            user = customerRepository.findByKakaoToken(token);
+            user.setContact(param.get("contact"));
+            user.setNickname(param.get("nickname"));
+//        user = Customer.from(param.get("nickname"), param.get("contact"));
+            user = customerRepository.save(user);
+            if(user == null){
+                return false;
+            }
+        }
+        catch(Exception e){
+            System.out.println("토큰이 다름!");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public int memberDelete(String token) {
+        int result = customerRepository.deleteByKakaoToken(token);
+        return result;
     }
 
 }
