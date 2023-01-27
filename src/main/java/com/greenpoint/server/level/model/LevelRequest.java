@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LevelRequest {
     private int grade;
-    private int lpoint;
     public String name;
     public String image;
 }

@@ -25,6 +25,18 @@ public class StoreController {
         List<Store> res = storeService.findAll();
         return ResponseEntity.ok(res);
     }
+    @GetMapping(value="/store/{id}")
+    public ResponseEntity<Store> findById(@PathVariable Long id){
+        Store res = storeService.findById(id);
+        return ResponseEntity.ok(res);
+    }
+
+    @GetMapping(value="/store/three/{id}")
+    public ResponseEntity<List<Store>> findThreeById(@PathVariable Long id){
+        List<Store> res = storeService.findThreeById(id);
+        return ResponseEntity.ok(res);
+    }
+
     @PostMapping(value="/store")
     public ResponseEntity<Store> create(@RequestBody StoreRequest request){
         Store res = storeService.create(Store.from(request));
