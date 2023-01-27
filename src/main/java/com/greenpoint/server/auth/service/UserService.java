@@ -7,6 +7,7 @@ import com.greenpoint.server.auth.model.KakaoProfile;
 import com.greenpoint.server.auth.model.KakaoProfile;
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.repository.CustomerRepository;
+import com.greenpoint.server.level.service.LevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,9 @@ import java.util.HashMap;
 @Service
 public class UserService {
     @Autowired
-    CustomerRepository customerRepository;
-
+    private CustomerRepository customerRepository;
+    @Autowired
+    private LevelService levelService;
     public Object[] saveUser(String token) {
 
         Object[] obArr = new Object[2];
@@ -81,6 +83,7 @@ public class UserService {
     }
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
         Customer user;
+
         Long id = Long.valueOf(param.get("id"));
         System.out.println("id = " + id);
         try{
@@ -89,6 +92,9 @@ public class UserService {
             user.setNickname(param.get("nickname"));
             user.setLatitude(Double.valueOf(param.get("latitude")));
             user.setLongitude(Double.valueOf(param.get("longitude")));
+            user.setPoint(0);
+            user.setTotalPoint(0);
+            user.setLevel(levelService.findByGrade(1));
 //        user = Customer.from(param.get("nickname"), param.get("contact"));
             user = customerRepository.save(user);
             if(user == null){
