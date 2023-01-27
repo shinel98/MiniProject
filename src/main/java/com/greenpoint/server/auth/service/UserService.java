@@ -75,7 +75,6 @@ public class UserService {
     }
 
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
-        // 닉네임 , 전화번호
         Customer user;
         String token = param.get("token");
         System.out.println("token = " + token);
