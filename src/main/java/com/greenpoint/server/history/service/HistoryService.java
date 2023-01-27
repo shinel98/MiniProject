@@ -35,7 +35,7 @@ public class HistoryService {
             Level level = levelService.findByGrade(newgrade);
             customer.upgrade(level);
         }
-
+        res.pointCheck(customer);
         return res.getId();
     }
 

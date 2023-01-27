@@ -28,15 +28,15 @@ public class HistoryController {
     private CustomerService customerService;
 
     @GetMapping(value = "/history/{id}")
-    public ResponseEntity<List<HistoryResponse>> findAllById(@PathVariable Long customerId){
-        List<HistoryResponse> res = historyService.findAllById(customerId);
+    public ResponseEntity<List<HistoryResponse>> findAllById(@PathVariable Long id){
+        List<HistoryResponse> res = historyService.findAllById(id);
         return ResponseEntity.ok(res);
     }
 
     @PostMapping(value="/history")
     public ResponseEntity<Long> addHistory(@RequestBody HistoryRequest request){
         Customer customer = customerService.findById(request.getCustomerId());
-        Store store = storeService.findStoreById(request.getStoreId());
+        Store store = storeService.findById(request.getStoreId());
         Long res = historyService.create(History.from(store, request), customer);
         return ResponseEntity.ok(res);
     }
