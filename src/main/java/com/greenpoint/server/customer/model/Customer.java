@@ -42,4 +42,5 @@ public class Customer extends BaseEntity {
     private int totalPoint;
 
 
+
 }
