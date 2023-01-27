@@ -11,4 +11,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("delete from Customer where kakaoToken= :kakaoToken")
     public int deleteByKakaoToken(String kakaoToken);
 
+//    @Query("select m from Customer as m where m.kakaoToken = :kakaoToken")
+//    public Customer findByToken(String kakaoToken);
+
+//    @Query("select m from Customer as m where m.contact = :contact")
+    public Customer findByContact(String contact);
 }
