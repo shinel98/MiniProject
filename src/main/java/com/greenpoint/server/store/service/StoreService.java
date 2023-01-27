@@ -52,8 +52,8 @@ public class StoreService {
     }
 
 
-    public List<Store> findThreeById(Long id) {
-        List<Store> ret = storeRepository.findThreeById(id);
-        return ret;
-    }
+//    public List<Store> findThreeById(Long id) {
+//        List<Store> ret = storeRepository.findThreeById(id);
+//        return ret;
+//    }
 }

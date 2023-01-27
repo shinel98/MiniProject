@@ -20,27 +20,27 @@ public class MenuController {
     private MenuService menuService;
 
 
-    @GetMapping("/menu/{id}")
-    public ResponseEntity<List<Menu>> findByStoreId(@PathVariable Long id){
-        List<Menu> res = menuService.findByStoreId(id);
+    @GetMapping("/menu/{sid}")
+    public ResponseEntity<List<Menu>> findByStoreId(@PathVariable Long sid){
+        List<Menu> res = menuService.findByStoreId(sid);
         return ResponseEntity.ok(res);
     }
 
-    @PostMapping("/menu/{id}")
-    public ResponseEntity<Menu> create(@PathVariable Long id, @RequestBody MenuRequest request){
-        Menu res = menuService.create(Menu.from(id, request));
+    @PostMapping("/menu/{sid}")
+    public ResponseEntity<Menu> create(@PathVariable Long sid, @RequestBody MenuRequest request){
+        Menu res = menuService.create(Menu.from(sid, request));
         return ResponseEntity.ok(res);
     }
 
-    @PatchMapping("/menu/{id}")
-    public ResponseEntity<Menu> update(@PathVariable Long id, @RequestBody MenuRequest request){
-        Menu res = menuService.update(id, request);
+    @PatchMapping("/menu/{mid}")
+    public ResponseEntity<Menu> update(@PathVariable Long mid, @RequestBody MenuRequest request){
+        Menu res = menuService.update(mid, request);
         return ResponseEntity.ok(res);
     }
 
-    @DeleteMapping("/menu/{id}")
-    public void delete(@PathVariable Long id){
-        menuService.delete(id);
+    @DeleteMapping("/menu/{mid}")
+    public void delete(@PathVariable Long mid){
+        menuService.delete(mid);
     }
 
 
