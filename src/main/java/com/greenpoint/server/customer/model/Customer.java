@@ -3,10 +3,7 @@ package com.greenpoint.server.customer.model;
 
 import com.greenpoint.server.common.BaseEntity;
 import com.greenpoint.server.level.model.Level;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -15,20 +12,21 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE customer SET deleted = true Where kakaoToken = ?")
 public class Customer extends BaseEntity {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+//    @Id
     @Column(unique = true)
     private String kakaoToken;
-    private String name;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Level level;
@@ -62,6 +60,14 @@ public class Customer extends BaseEntity {
     }
     public void insertUser(String token) {
         this.kakaoToken = token;
+    }
+
+    public static Customer from (String token, String nickname, String image) {
+        return Customer.builder()
+                .kakaoToken(token)
+                .nickname(nickname)
+                .image(image)
+                .build();
     }
 
 }
