@@ -72,11 +72,11 @@ public class HistoryService {
     }
 
 
-    @Transactional
-    public List<Integer> findDailyHistory(Long customerId) {
-        List<Integer> histories = historyRepository.findDailyHistory(customerId);
-        System.out.println("histories = " + histories);
-        return histories;
-    }
+//    @Transactional
+//    public List<Integer> findDailyHistory(Long customerId) {
+//        List<Integer> histories = historyRepository.findDailyHistory(customerId);
+//        System.out.println("histories = " + histories);
+//        return histories;
+//    }
 
 }
