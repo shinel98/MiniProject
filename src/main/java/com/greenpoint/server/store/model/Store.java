@@ -37,6 +37,7 @@ public class Store extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private StoreLevel storeLevel;
+
     public static Store from(StoreRequest request){
         return Store.builder()
                 .loginID(request.getLoginID())
