@@ -2,7 +2,6 @@ package com.greenpoint.server.customer.model;
 
 
 import com.greenpoint.server.common.BaseEntity;
-import com.greenpoint.server.level.model.Level;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE customer SET deleted = true Where kakaoToken = ?")
+@SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
 public class Customer extends BaseEntity {
 
 //    @Id
@@ -26,21 +25,16 @@ public class Customer extends BaseEntity {
 //    private Long id;
 
     @Id
-    @Column(unique = true)
-    private String kakaoToken;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Level level;
-
-    private String contact;
-    private String image;
-    private String nickname;
-    private double latitude;
-    private double longitude;
+    private String img;
     private int point;
     private int totalPoint;
 
+    public void insertUserToken(String token){
+        this.kakao_token = token;
+    }
 
     public void addpoint(int savedPoint) {
         this.point = this.point + savedPoint;
