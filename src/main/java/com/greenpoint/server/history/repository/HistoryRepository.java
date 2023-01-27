@@ -15,7 +15,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
 
 
-    @Query("select h from History h where h.customerId = :cid")
+    @Query("select h from History h where h.customerId = :cid order by h.created_at desc")
     List<History> findAllById(Long cid);
 
 
