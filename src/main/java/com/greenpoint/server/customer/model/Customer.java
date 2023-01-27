@@ -16,12 +16,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
+//@SQLDelete(sql = "UPDATE customer SET deleted = true Where id = ?")
 public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    private Long kakaoId;
 
     @Column(unique = true)
     private String kakaoToken;
@@ -68,6 +71,14 @@ public class Customer extends BaseEntity {
 
     public static Customer from (String token, String nickname, String image) {
         return Customer.builder()
+                .kakaoToken(token)
+                .nickname(nickname)
+                .image(image)
+                .build();
+    }
+    public static Customer from (Long id, String token, String nickname, String image) {
+        return Customer.builder()
+                .kakaoId(id)
                 .kakaoToken(token)
                 .nickname(nickname)
                 .image(image)

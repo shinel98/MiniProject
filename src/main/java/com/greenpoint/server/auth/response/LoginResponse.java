@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
+    private Long kakaoId;
     private String token;
     private String nickname;
     private String image;

@@ -19,10 +19,10 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
     @GetMapping("/readCustomer")
-    public ResponseEntity<Customer> readCustomer(@RequestParam("token") String token) {
+    public ResponseEntity<Customer> readCustomer(@RequestParam("id") Long id) {
 
         Customer customer;
-        customer = customerService.findByToken(token);
+        customer = customerService.findByKakaoId(id);
         return ResponseEntity.ok(customer);
 
     }
