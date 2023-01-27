@@ -27,6 +27,7 @@ public class History extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Store store;
+
     private int cost;
     private int savedPoint;
     private int usedPoint;

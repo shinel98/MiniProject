@@ -21,11 +21,15 @@ public class Level extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private int grade;
+    private int lpoint;
     private String name;
     private String image;
 
     public static Level from(LevelRequest request) {
         return Level.builder()
+                .grade(request.getGrade())
+                .lpoint(request.getLpoint())
                 .name(request.getName())
                 .image(request.getImage())
                 .build();

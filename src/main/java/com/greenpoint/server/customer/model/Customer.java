@@ -43,9 +43,14 @@ public class Customer extends BaseEntity {
     }
 
 
-    public void addpoint(int savedPoint) {
+    public int addpoint(int savedPoint) {
         this.point = this.point + savedPoint;
         this.totalPoint = this.totalPoint + savedPoint;
+        int grade;
+        if(this.totalPoint >= 1000000) grade = 3;
+        else if(this.totalPoint >= 100000) grade = 2;
+        else grade = 1;
+        return grade;
     }
 
     public void usepoint(int usedPoint) {
@@ -76,4 +81,7 @@ public class Customer extends BaseEntity {
     }
 
 
+    public void upgrade(Level level) {
+        this.level = level;
+    }
 }
