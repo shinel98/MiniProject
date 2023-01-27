@@ -48,7 +48,14 @@ public class PointService {
 
 
     public int findMaxPointByStore(Long storeid) {
-        int ret = pointRepository.findMaxPointByStore(storeid);
+        int ret = 0;
+        try{
+            ret = pointRepository.findMaxPointByStore(storeid);
+        }
+        catch(Exception e){
+            ret = 0;
+            return ret;
+        }
         return ret;
     }
 }

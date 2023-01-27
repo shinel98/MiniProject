@@ -67,7 +67,7 @@ public class HistoryService {
 
     @Transactional
     public List<HistoryResponse> findThreeByCID(Long cid) {
-        List<History> histories = em.createQuery("select h from History h where h.customerId = " + cid + " order by h.created_at desc").setMaxResults(3).getResultList();
+        List<History> histories = em.createQuery("select h from History h where h.customerId = " + cid + " and h.savedPoint != " + 0 + " order by h.created_at desc").setMaxResults(3).getResultList();
         return histories.stream().map(HistoryResponse::from).collect(Collectors.toList());
     }
 
