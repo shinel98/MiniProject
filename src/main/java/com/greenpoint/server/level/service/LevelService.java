@@ -18,4 +18,8 @@ public class LevelService {
         return ret;
     }
 
+    public Level findByGrade(int newgrade) {
+        Level ret = levelRepository.findByGrade(newgrade);
+        return ret;
+    }
 }
