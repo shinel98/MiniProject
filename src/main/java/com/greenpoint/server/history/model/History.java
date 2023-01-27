@@ -3,6 +3,7 @@ package com.greenpoint.server.history.model;
 
 import com.greenpoint.server.common.BaseEntity;
 import com.greenpoint.server.customer.model.Customer;
+import com.greenpoint.server.customer.service.CustomerService;
 import com.greenpoint.server.store.model.Store;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -29,6 +30,7 @@ public class History extends BaseEntity {
     private Store store;
 
     private int cost;
+    private int currentPoint;
     private int savedPoint;
     private int usedPoint;
 
@@ -41,6 +43,10 @@ public class History extends BaseEntity {
                 .savedPoint(request.getSavedPoint())
                 .usedPoint(request.getUsedPoint())
                 .build();
+    }
+
+    public void pointCheck(Customer customer){
+        this.currentPoint = customer.getPoint();
     }
 
 

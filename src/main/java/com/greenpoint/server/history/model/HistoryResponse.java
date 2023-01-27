@@ -25,6 +25,7 @@ public class HistoryResponse {
                 .storeName(history.getStore().getName())
                 .savedPoint(history.getSavedPoint())
                 .usedPoint(history.getUsedPoint())
+                .currentPoint(history.getCurrentPoint())
                 .build();
     }
 

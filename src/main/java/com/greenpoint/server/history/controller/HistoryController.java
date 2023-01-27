@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api")
 public class HistoryController {
 
@@ -27,16 +28,16 @@ public class HistoryController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping(value = "/history/{id}")
-    public ResponseEntity<List<HistoryResponse>> findAllById(@PathVariable Long customerId){
-        List<HistoryResponse> res = historyService.findAllById(customerId);
+    @GetMapping(value = "/history/{cid}")
+    public ResponseEntity<List<HistoryResponse>> findAllById(@PathVariable Long cid){
+        List<HistoryResponse> res = historyService.findAllById(cid);
         return ResponseEntity.ok(res);
     }
 
     @PostMapping(value="/history")
     public ResponseEntity<Long> addHistory(@RequestBody HistoryRequest request){
         Customer customer = customerService.findById(request.getCustomerId());
-        Store store = storeService.findStoreById(request.getStoreId());
+        Store store = storeService.findById(request.getStoreId());
         Long res = historyService.create(History.from(store, request), customer);
         return ResponseEntity.ok(res);
     }

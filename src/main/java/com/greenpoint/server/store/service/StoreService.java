@@ -18,7 +18,7 @@ public class StoreService {
 
 
     @Transactional(readOnly = true)
-    public Store findStoreById(Long storeId) {
+    public Store findById(Long storeId) {
         Store ret = storeRepository.findById(storeId).get();
         return ret;
     }
@@ -49,5 +49,11 @@ public class StoreService {
 
     private Store findOne(Long id) {
         return storeRepository.findById(id).get();
+    }
+
+
+    public List<Store> findThreeById(Long id) {
+        List<Store> ret = storeRepository.findThreeById(id);
+        return ret;
     }
 }

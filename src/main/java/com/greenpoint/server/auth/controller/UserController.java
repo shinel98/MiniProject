@@ -30,6 +30,7 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api")
 public class UserController {
     @Autowired
