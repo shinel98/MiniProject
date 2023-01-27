@@ -9,6 +9,8 @@ import com.greenpoint.server.store.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,7 @@ public class StoreService {
             int max = pointService.findMaxPointByStore(ret.get(i).getStoreId());
             ret.get(i).maxp(max);
         }
-        return ret;
+        return ret.stream().sorted(Comparator.comparing(StoreClientResponse::getMaximumPoint).reversed()).collect(Collectors.toList());
     }
 
 
