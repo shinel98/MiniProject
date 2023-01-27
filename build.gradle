@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war'
 }
 
 group = 'com.greenpoint'
@@ -14,6 +15,10 @@ configurations {
 	}
 }
 
+bootWar {
+	enabled = true
+}
+
 repositories {
 	mavenCentral()
 }
@@ -23,7 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
-	implementation 'com.auth0:java-jwt:4.2.1'
+	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'

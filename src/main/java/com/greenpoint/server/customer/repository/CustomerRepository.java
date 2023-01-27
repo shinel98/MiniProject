@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
+    public Customer findByKakaoToken(String kakaoToken);
 
-    @Query("select c from Customer c where c.id = :customerId")
-    Customer findWithId(Long customerId);
 }

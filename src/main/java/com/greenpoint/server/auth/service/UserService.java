@@ -1,123 +1,70 @@
-//package com.greenpoint.server.auth.service;
-//
-//import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.greenpoint.server.auth.model.KakaoProfile;
-//import com.greenpoint.server.auth.repository.UserRepository;
-//import com.greenpoint.server.customer.model.Customer;
-//import com.greenpoint.server.customer.repository.CustomerRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpEntity;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.HttpMethod;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Service;
-//import org.springframework.util.LinkedMultiValueMap;
-//import org.springframework.util.MultiValueMap;
-//import org.springframework.web.client.RestTemplate;
-//
-//@Service
-//public class UserService {
-//    @Autowired
-//    CustomerRepository customerRepository;
-//
-////    public OauthToken getAccessToken(String code) {
-////        RestTemplate rt = new RestTemplate();
-////
-////        HttpHeaders headers = new HttpHeaders();
-////        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-////
-////        //(4)
-////        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-////        params.add("grant_type", "authorization_code");
-////        params.add("client_id", "{클라이언트 앱 키}");
-////        params.add("redirect_uri", "{리다이렉트 uri}");
-////        params.add("code", code);
-////        params.add("client_secret", "{시크릿 키}"); // 생략 가능!
-////
-////        //(5)
-////        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
-////                new HttpEntity<>(params, headers);
-////
-////        //(6)
-////        ResponseEntity<String> accessTokenResponse = rt.exchange(
-////                "https://kauth.kakao.com/oauth/token",
-////                HttpMethod.POST,
-////                kakaoTokenRequest,
-////                String.class
-////        );
-////
-////        //(7)
-////        ObjectMapper objectMapper = new ObjectMapper();
-////        OauthToken oauthToken = null;
-////        try {
-////            oauthToken = objectMapper.readValue(accessTokenResponse.getBody(), OauthToken.class);
-////        } catch (JsonProcessingException e) {
-////            e.printStackTrace();
-////        }
-////
-////        return oauthToken; //(8)
-////    }
-//
-//    public Customer saveUser(String token) {
-//
-//        //(1)
-//        Customer customer;
-//
-//        KaKaoprofile profile = findProfile(token);
-//        //(2)
-//        Customer user = customerRepository.findByNickname(profile.getKakao_account().getEmail());
-//
-//        //(3)
-//        if(user == null) {
-//            user = User.builder()
-//                    .kakaoId(profile.getId())
-//                    //(4)
-//                    .kakaoProfileImg(profile.getKakao_account().getProfile().getProfile_image_url())
-//                    .kakaoNickname(profile.getKakao_account().getProfile().getNickname())
-//                    .kakaoEmail(profile.getKakao_account().getEmail())
-//                    //(5)
-//                    .userRole("ROLE_USER").build();
-//
-//            userRepository.save(user);
-//        }
-//
-//        return user;
-//    }
-//
-//    public KakaoProfile findProfile(String token) {
-//
-//        //(1-2)
-//        RestTemplate rt = new RestTemplate();
-//
-//        //(1-3)
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Authorization", "Bearer " + token); //(1-4)
-//        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-//
-//        //(1-5)
-//        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest =
-//                new HttpEntity<>(headers);
-//
-//        //(1-6)
-//        // Http 요청 (POST 방식) 후, response 변수에 응답을 받음
-//        ResponseEntity<String> kakaoProfileResponse = rt.exchange(
-//                "https://kapi.kakao.com/v2/user/me",
-//                HttpMethod.POST,
-//                kakaoProfileRequest,
-//                String.class
-//        );
-//
-//        //(1-7)
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        KakaoProfile kakaoProfile = null;
-//        try {
-//            kakaoProfile = objectMapper.readValue(kakaoProfileResponse.getBody(), KakaoProfile.class);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return kakaoProfile;
-//    }
-//
-//}
+
+package com.greenpoint.server.auth.service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greenpoint.server.customer.model.Customer;
+import com.greenpoint.server.customer.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class UserService {
+    @Autowired
+    private CustomerRepository customerRepository;
+
+
+    public Object[] saveUser(String token) {
+
+        Object[] obArr = new Object[2];
+        String name = null;
+        String imageUrl = null;
+
+        String userInfo = getUserInfoByAccessToken(token);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper.readTree(userInfo);
+            name = String.valueOf(jsonNode.get("kakao_account").get("profile").get("nickname"));
+            imageUrl = String.valueOf(jsonNode.get("kakao_account").get("profile").get("profile_image_url"));
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("userInfo" + userInfo);
+
+        Customer user = customerRepository.findByKakaoToken(token);
+        if(user == null) {
+            Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
+            obArr[0] = newUser;
+            obArr[1] = false;
+//            customerRepository.save(newUser);
+            return obArr;
+        }
+
+        obArr[0] = user;
+        obArr[1] = true;
+        return obArr;
+    }
+
+    public String getUserInfoByAccessToken(String accessToken) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+
+        String url = "https://kapi.kakao.com/v2/user/me";
+
+        return restTemplate.postForObject(url, request, String.class);
+    }
+
+}

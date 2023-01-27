@@ -1,5 +1,4 @@
 package com.greenpoint.server.history.controller;
-
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.service.CustomerService;
 import com.greenpoint.server.history.model.History;
@@ -24,7 +23,6 @@ public class HistoryController {
     private HistoryService historyService;
     @Autowired
     private StoreService storeService;
-
     @Autowired
     private CustomerService customerService;
 
@@ -35,9 +33,10 @@ public class HistoryController {
     }
 
 
+
     @PostMapping(value="/history")
     public ResponseEntity<Long> addHistory(@RequestBody HistoryRequest request){
-        Customer customer = customerService.findWithId(request.getCustomerId());
+        Customer customer = customerService.findById(request.getCustomerId());
         Store store = storeService.findStoreById(request.getStoreId());
         Long res = historyService.create(History.from(store, request), customer);
         return ResponseEntity.ok(res);

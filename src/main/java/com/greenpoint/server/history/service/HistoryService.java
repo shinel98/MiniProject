@@ -8,7 +8,6 @@ import com.greenpoint.server.history.repository.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +19,7 @@ public class HistoryService {
 
 
 
+
     @Transactional
     public Long create(History history, Customer customer){
         History res = historyRepository.save(history);
@@ -28,9 +28,11 @@ public class HistoryService {
         return res.getId();
     }
 
+
     @Transactional
     public List<HistoryResponse> findAllById(Long customerId) {
         List<History> histories = historyRepository.findAllById(customerId);
         return histories.stream().map(HistoryResponse::from).collect(Collectors.toList());
     }
+
 }

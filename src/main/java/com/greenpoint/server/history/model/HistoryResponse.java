@@ -1,16 +1,11 @@
 package com.greenpoint.server.history.model;
 
-import com.greenpoint.server.customer.model.Customer;
-import com.greenpoint.server.customer.service.CustomerService;
-import com.greenpoint.server.store.model.Store;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 
 @Getter
 @Builder
@@ -22,6 +17,7 @@ public class HistoryResponse {
     private int savedPoint;
     private int usedPoint;
     private int currentPoint;
+
 
 
     public static HistoryResponse from(History history){
