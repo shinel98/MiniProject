@@ -9,4 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class CustomerController {
 
+    @RequestMapping("/test")
+    public void print(){
+        System.out.println(" 들어옴! " );
+    }
 }
