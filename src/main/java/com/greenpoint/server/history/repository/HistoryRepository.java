@@ -13,4 +13,8 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     @Query("select h from History h where h.customerId = :cid")
     List<History> findAllById(Long cid);
+
+    @Query("select count(h.id) as cnt from History h where h.id = :customerId group by h.created_at o")
+    SELECT DATE(created_at), COUNT(Id) FROM history GROUP BY DATE(created_at) order by DATE(created_at) desc;
+    List<Integer> findDailyHistory(Long customerId);
 }
