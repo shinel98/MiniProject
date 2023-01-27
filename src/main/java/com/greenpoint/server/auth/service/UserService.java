@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenpoint.server.auth.model.KakaoProfile;
-import com.greenpoint.server.auth.repository.UserRepository;
+import com.greenpoint.server.auth.model.KakaoProfile;
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +50,7 @@ public class UserService {
             Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
             obArr[0] = newUser;
             obArr[1] = false;
+//            customerRepository.save(newUser);
             return obArr;
         }
 
@@ -73,7 +74,6 @@ public class UserService {
 
         return restTemplate.postForObject(url, request, String.class);
     }
-
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
         Customer user;
         String token = param.get("token");
@@ -82,6 +82,8 @@ public class UserService {
             user = customerRepository.findByKakaoToken(token);
             user.setContact(param.get("contact"));
             user.setNickname(param.get("nickname"));
+            user.setLatitude(Double.valueOf(param.get("latitude")));
+            user.setLongitude(Double.valueOf(param.get("longitude")));
 //        user = Customer.from(param.get("nickname"), param.get("contact"));
             user = customerRepository.save(user);
             if(user == null){
