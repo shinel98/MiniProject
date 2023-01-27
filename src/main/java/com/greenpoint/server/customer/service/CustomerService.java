@@ -14,9 +14,6 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-
-
-
     @Transactional
     public Customer findById(Long id) {
 //        Customer ret = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
@@ -25,8 +22,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer findByToken(String token) {
-        Customer customer = customerRepository.findByKakaoToken(token);
+    public Customer findByKakaoId(Long kakaoId) {
+        Customer customer = customerRepository.findByKakaoId(kakaoId);
         return customer;
     }
 

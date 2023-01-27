@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class UserController {
         System.out.println("obArr = " + obArr);
         userInfo = (Customer) obArr[0];
         isRegistered = (boolean) obArr[1];
-        LoginResponse loginResponse = new LoginResponse(userInfo.getKakaoToken(), userInfo.getNickname(), userInfo.getImage(), isRegistered);
+        LoginResponse loginResponse = new LoginResponse(userInfo.getKakaoId(), userInfo.getKakaoToken(), userInfo.getNickname(), userInfo.getImage(), isRegistered);
         return ResponseEntity.ok(loginResponse);
     }
 
@@ -62,15 +63,16 @@ public class UserController {
         return ResponseEntity.ok(accountResponse);
     }
 
+    @Transactional
     @DeleteMapping("/deleteMember")
-    public String deleteAccount(HttpSession session, @RequestParam("token") String token){
+    public String deleteAccount(@RequestParam("id") Long id){
         String resultCode = "";
-        int result = userService.memberDelete(token);
+        int result = userService.memberDelete(id);
         if(result == 0){
             resultCode = "회원 탈퇴 실패";
 
         } else {
-            session.removeAttribute("sessionId");
+//            session.removeAttribute("sessionId");
             resultCode = "회원 탈퇴 성공";
         }
         return resultCode;
