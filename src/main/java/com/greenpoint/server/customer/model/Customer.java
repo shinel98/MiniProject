@@ -55,5 +55,13 @@ public class Customer extends BaseEntity {
         this.point = this.point - usedPoint;
     }
 
+    public void insertUser(String token, String nickname, String image) {
+        this.kakaoToken = token;
+        this.nickname = nickname;
+        this.image = image;
+    }
+    public void insertUser(String token) {
+        this.kakaoToken = token;
+    }
 
 }

@@ -24,11 +24,11 @@ public class HistoryController {
     private StoreService storeService;
 
 
-    @GetMapping(value = "/history/{token}")
-    public ResponseEntity<List<HistoryResponse>> findAllHistoryByCustomer(){
-
-
-    }
+//    @GetMapping(value = "/history/{token}")
+//    public ResponseEntity<List<HistoryResponse>> findAllHistoryByCustomer(){
+//
+//
+//    }
 
 
     @PostMapping(value="/history")

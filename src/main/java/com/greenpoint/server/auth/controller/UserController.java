@@ -1,6 +1,10 @@
 package com.greenpoint.server.auth.controller;
 
+import com.greenpoint.server.auth.response.LoginResponse;
+import com.greenpoint.server.auth.service.UserService;
+import com.greenpoint.server.customer.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,13 +16,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/oauth/token")
-    public OauthToken getLogin(@RequestParam("code") String code) {
+    @GetMapping("/login")
+    public ResponseEntity<LoginResponse> getLogin(@RequestParam("code") String code) {
 
-        OauthToken oauthToken = userService.getAccessToken(code);
+        Customer user;
+        user = userService.saveUser(code);
+        LoginResponse loginResponse = new LoginResponse(user.getKakaoToken(), user.getNickname(), user.getImage());
 
-        return oauthToken;
+        return ResponseEntity.ok(loginResponse);
     }
 
 }
-}
+

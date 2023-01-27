@@ -21,13 +21,13 @@ public class HistoryResponse {
     private int usedPoint;
     private int currentPoint;
 
-    public HistoryResponse from(History history){
-        return HistoryResponse.builder()
-                .storeName(history.getStore().getName())
-                .savedPoint(history.getSavedPoint())
-                .usedPoint(history.getUsedPoint())
-                .currentPoint(history.)
-                .build();
-    }
+//    public HistoryResponse from(History history){
+//        return HistoryResponse.builder()
+//                .storeName(history.getStore().getName())
+//                .savedPoint(history.getSavedPoint())
+//                .usedPoint(history.getUsedPoint())
+//                .currentPoint(history.)
+//                .build();
+//    }
 
 }
