@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,11 @@ public class HistoryController {
         Store store = storeService.findById(request.getStoreId());
         Long res = historyService.create(History.from(store, request), customer);
         return ResponseEntity.ok(res);
+    }
+    @GetMapping(value="/dailyHistory")
+    public int[] readDailyHistory(@RequestParam("customerId") Long customerId) throws ParseException {
+        int[] arr = historyService.findDailyHistory(customerId);
+        return arr;
     }
 
     @GetMapping(value="/history/three/{cid}")
