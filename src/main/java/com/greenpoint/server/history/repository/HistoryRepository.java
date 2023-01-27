@@ -18,13 +18,13 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
     List<History> findAllById(Long cid);
 
 
-    @Query(nativeQuery = true, value="SELECT DATE(created_at) FROM history GROUP BY DATE(created_at) order by DATE(created_at) desc limit 1")
+    @Query(nativeQuery = true, value="SELECT DATE(created_at) FROM history where customer_id = :customerId GROUP BY DATE(created_at)  order by DATE(created_at) desc limit 1")
     String findMaxDate(Long customerId);
 
-    @Query(nativeQuery= true, value ="SELECT DATE(created_at) FROM history where not created_at is Null GROUP BY DATE(created_at) order by DATE(created_at)  limit 1")
+    @Query(nativeQuery= true, value ="SELECT DATE(created_at) FROM history where not created_at is Null and customer_id = :customerId GROUP BY DATE(created_at) order by DATE(created_at)  limit 1")
     String findMinDate(Long customerId);
 
-    @Query(nativeQuery = true, value="SELECT DATE(created_at) ,COUNT(Id) FROM history where Date(created_at) is not null GROUP BY DATE(created_at) order by DATE(created_at)")
+    @Query(nativeQuery = true, value="SELECT DATE(created_at) ,COUNT(Id) FROM history where Date(created_at) is not null and customer_id = :customerId GROUP BY DATE(created_at) order by DATE(created_at)")
 //    List<Object> findExistDate(Long customerId);
     List<String> findExistDate(Long customerId);
 }
