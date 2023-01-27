@@ -1,13 +1,16 @@
 package com.greenpoint.server.store.service;
 
 import com.greenpoint.server.exception.GlobalException;
+import com.greenpoint.server.point.service.PointService;
 import com.greenpoint.server.store.model.Store;
+import com.greenpoint.server.store.model.StoreClientResponse;
 import com.greenpoint.server.store.model.StoreRequest;
 import com.greenpoint.server.store.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -15,6 +18,9 @@ public class StoreService {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private PointService pointService;
 
 
     @Transactional(readOnly = true)
@@ -24,10 +30,16 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<Store> findAll() {
-        List<Store> ret = storeRepository.findAll();
+    public List<StoreClientResponse> findAll() {
+        List<Store> stores = storeRepository.findAll();
+        List<StoreClientResponse> ret = stores.stream().map(StoreClientResponse::from).collect(Collectors.toList());
+        for(int i=0; i<ret.size(); i++){
+            int max = pointService.findMaxPointByStore(ret.get(i).getStoreId());
+            ret.get(i).maxp(max);
+        }
         return ret;
     }
+
 
     @Transactional
     public Store create(Store store) {
