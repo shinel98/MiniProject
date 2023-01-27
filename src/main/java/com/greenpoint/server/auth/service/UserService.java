@@ -1,9 +1,10 @@
-
 package com.greenpoint.server.auth.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greenpoint.server.auth.model.KakaoProfile;
+import com.greenpoint.server.auth.model.KakaoProfile;
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 
 import java.sql.SQLOutput;
 
@@ -23,8 +23,7 @@ import java.util.HashMap;
 @Service
 public class UserService {
     @Autowired
-    private CustomerRepository customerRepository;
-
+    CustomerRepository customerRepository;
 
     public Object[] saveUser(String token) {
 
@@ -76,7 +75,6 @@ public class UserService {
         return restTemplate.postForObject(url, request, String.class);
     }
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
-        // 닉네임 , 전화번호
         Customer user;
         String token = param.get("token");
         System.out.println("token = " + token);
@@ -84,6 +82,8 @@ public class UserService {
             user = customerRepository.findByKakaoToken(token);
             user.setContact(param.get("contact"));
             user.setNickname(param.get("nickname"));
+            user.setLatitude(Double.valueOf(param.get("latitude")));
+            user.setLongitude(Double.valueOf(param.get("longitude")));
 //        user = Customer.from(param.get("nickname"), param.get("contact"));
             user = customerRepository.save(user);
             if(user == null){
