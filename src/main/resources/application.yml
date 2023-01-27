@@ -1,0 +1,27 @@
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: d83c4df2ae52b5f2a42c9b5f776e4178
+#            redirect-uri: localhost:8080/main
+#            client-authentication-method: POST
+#            client-secret: Qq1yGZKo245VNijN1h17EwjABCk5ZpzQ
+#            authorization-grant-type: authorization_code
+#            scope:
+#              - profile_nickname
+#              - profile_image
+#        provider:
+#          kakao:
+#            authorization-uri: https://kauth.kakao.com/oauth/authorize
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-name-attribute: id
+#jwt:
+#  token:
+#    secret-key: Qq1yGZKo245VNijN1h17EwjABCk5ZpzQ
+#  access-token:
+#    expire-length: 1800000
+#  refresh-token:
+#    expire-length: 1209600000
