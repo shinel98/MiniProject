@@ -24,6 +24,16 @@ public class CustomerService {
         return ret;
     }
 
+    @Transactional
+    public Customer findByToken(String token) {
+        Customer customer = customerRepository.findByKakaoToken(token);
+        return customer;
+    }
 
+    @Transactional
+    public Customer findByContact(String contact) {
+        Customer customer = customerRepository.findByContact(contact);
+        return customer;
+    }
 
 }

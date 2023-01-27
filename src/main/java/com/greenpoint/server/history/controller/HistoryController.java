@@ -7,6 +7,7 @@ import com.greenpoint.server.history.model.HistoryResponse;
 import com.greenpoint.server.history.service.HistoryService;
 import com.greenpoint.server.store.model.Store;
 import com.greenpoint.server.store.service.StoreService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +33,6 @@ public class HistoryController {
         return ResponseEntity.ok(res);
     }
 
-
-
     @PostMapping(value="/history")
     public ResponseEntity<Long> addHistory(@RequestBody HistoryRequest request){
         Customer customer = customerService.findById(request.getCustomerId());
@@ -41,5 +40,9 @@ public class HistoryController {
         Long res = historyService.create(History.from(store, request), customer);
         return ResponseEntity.ok(res);
     }
+//    @GetMapping(value="/dailyHistory")
+//    public ResponseEntity<List<History>> readDailyHistory(@RequestParam("id") Long id){
+//
+//    }
 
 }
