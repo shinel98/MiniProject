@@ -37,6 +37,7 @@ public class Store extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private StoreLevel storeLevel;
+    private int totalPoint;
 
     public static Store from(StoreRequest request){
         return Store.builder()
@@ -47,6 +48,7 @@ public class Store extends BaseEntity {
                 .image(request.getImage())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
+                .totalPoint(request.getTotalPoint())
                 .build();
     }
 
@@ -59,5 +61,17 @@ public class Store extends BaseEntity {
         this.password = request.getPassword();
         this.latitude = request.getLatitude();
         this.longitude = request.getLongitude();
+    }
+    public int pointUp(int n){
+        this.totalPoint = this.totalPoint + n;
+        int ret = 0;
+        if(this.totalPoint >= 1000000) ret = 3;
+        else if(this.totalPoint >= 100000) ret = 2;
+        else ret = 1;
+        return ret;
+    }
+
+    public void gradeChange(StoreLevel level) {
+        this.storeLevel = level;
     }
 }

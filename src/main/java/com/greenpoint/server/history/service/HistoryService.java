@@ -6,6 +6,8 @@ import com.greenpoint.server.history.model.HistoryResponse;
 import com.greenpoint.server.history.repository.HistoryRepository;
 import com.greenpoint.server.level.model.Level;
 import com.greenpoint.server.level.service.LevelService;
+import com.greenpoint.server.storeLevel.model.StoreLevel;
+import com.greenpoint.server.storeLevel.service.StoreLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,9 @@ public class HistoryService {
 
     @Autowired
     private LevelService levelService;
+
+    @Autowired
+    private StoreLevelService storeLevelService;
 
 
 
@@ -36,6 +41,13 @@ public class HistoryService {
             customer.upgrade(level);
         }
         res.pointCheck(customer);
+
+        int before = res.getStore().getStoreLevel().getGrade();
+        int after = res.getStore().pointUp(history.getSavedPoint());
+        if(after > before) {
+            StoreLevel level = storeLevelService.findByGrade(after);
+            history.getStore().gradeChange(level);
+        }
         return res.getId();
     }
 
