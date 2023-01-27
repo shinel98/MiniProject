@@ -30,14 +30,17 @@ public class UserService {
         Object[] obArr = new Object[2];
         String name = null;
         String imageUrl = null;
+        Long id = null;
 
         String userInfo = getUserInfoByAccessToken(token);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode jsonNode = objectMapper.readTree(userInfo);
+            System.out.println(jsonNode);
+            id = Long.valueOf(String.valueOf(jsonNode.get("id")));
+            System.out.println("id = " + id);
             name = String.valueOf(jsonNode.get("kakao_account").get("profile").get("nickname"));
             imageUrl = String.valueOf(jsonNode.get("kakao_account").get("profile").get("profile_image_url"));
-
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -45,12 +48,14 @@ public class UserService {
         System.out.println("userInfo" + userInfo);
 
         Customer user;
-        user = customerRepository.findByKakaoToken(token);
+
+        user = customerRepository.findByKakaoId(id);
+        System.out.println("user = " + user);
         if(user == null) {
-            Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
+            Customer newUser = Customer.from(id, token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
             obArr[0] = newUser;
             obArr[1] = false;
-//            customerRepository.save(newUser);
+            customerRepository.save(newUser);
             return obArr;
         }
 
@@ -76,10 +81,10 @@ public class UserService {
     }
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
         Customer user;
-        String token = param.get("token");
-        System.out.println("token = " + token);
+        Long id = Long.valueOf(param.get("id"));
+        System.out.println("id = " + id);
         try{
-            user = customerRepository.findByKakaoToken(token);
+            user = customerRepository.findByKakaoId(id);
             user.setContact(param.get("contact"));
             user.setNickname(param.get("nickname"));
             user.setLatitude(Double.valueOf(param.get("latitude")));
@@ -99,8 +104,8 @@ public class UserService {
     }
 
 
-    public int memberDelete(String token) {
-        int result = customerRepository.deleteByKakaoToken(token);
+    public int memberDelete(Long id) {
+        int result = customerRepository.deleteByKakaoId(id);
         return result;
     }
 

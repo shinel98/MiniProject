@@ -2,6 +2,7 @@ package com.greenpoint.server.history.service;
 
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.history.model.History;
+import com.greenpoint.server.history.model.HistoryCntResponse;
 import com.greenpoint.server.history.model.HistoryResponse;
 import com.greenpoint.server.history.repository.HistoryRepository;
 import com.greenpoint.server.level.model.Level;
@@ -56,5 +57,12 @@ public class HistoryService {
     public List<HistoryResponse> findAllById(Long customerId) {
         List<History> histories = historyRepository.findAllById(customerId);
         return histories.stream().map(HistoryResponse::from).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<Integer> findDailyHistory(Long customerId) {
+        List<Integer> histories = historyRepository.findDailyHistory(customerId);
+        System.out.println("histories = " + histories);
+        return histories;
     }
 }
