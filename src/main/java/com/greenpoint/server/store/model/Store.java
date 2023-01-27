@@ -39,6 +39,7 @@ public class Store extends BaseEntity {
     private StoreLevel storeLevel;
     private int totalPoint;
 
+
     public static Store from(StoreRequest request){
         return Store.builder()
                 .loginID(request.getLoginID())

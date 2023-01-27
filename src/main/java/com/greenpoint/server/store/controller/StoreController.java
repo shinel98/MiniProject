@@ -1,6 +1,7 @@
 package com.greenpoint.server.store.controller;
 
 import com.greenpoint.server.store.model.Store;
+import com.greenpoint.server.store.model.StoreClientResponse;
 import com.greenpoint.server.store.model.StoreRequest;
 import com.greenpoint.server.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class StoreController {
     private StoreService storeService;
 
     @GetMapping(value="/store")
-    public ResponseEntity<List<Store>> findAll(){
-        List<Store> res = storeService.findAll();
+    public ResponseEntity<List<StoreClientResponse>> findAll(){
+        List<StoreClientResponse> res = storeService.findAll();
         return ResponseEntity.ok(res);
     }
     @GetMapping(value="/store/{id}")
@@ -31,28 +32,19 @@ public class StoreController {
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping(value="/store/three/{id}")
-    public ResponseEntity<List<Store>> findThreeById(@PathVariable Long id){
-        List<Store> res = storeService.findThreeById(id);
-        return ResponseEntity.ok(res);
-    }
-
     @PostMapping(value="/store")
     public ResponseEntity<Store> create(@RequestBody StoreRequest request){
         Store res = storeService.create(Store.from(request));
         return ResponseEntity.ok(res);
     }
-    @PatchMapping(value="/store/{id}")
-    public ResponseEntity<Store> update(@PathVariable Long id, @RequestBody StoreRequest request){
-        Store res = storeService.update(id, request);
+    @PatchMapping(value="/store/{sid}")
+    public ResponseEntity<Store> update(@PathVariable Long sid, @RequestBody StoreRequest request){
+        Store res = storeService.update(sid, request);
         return ResponseEntity.ok(res);
     }
-    @DeleteMapping(value="/store/{id}")
-    public void delete(@PathVariable Long id){
-        storeService.delete(id);
+    @DeleteMapping(value="/store/{sid}")
+    public void delete(@PathVariable Long sid){
+        storeService.delete(sid);
     }
-
-
-
 
 }

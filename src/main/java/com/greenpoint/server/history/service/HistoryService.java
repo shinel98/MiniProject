@@ -21,6 +21,10 @@ import org.springframework.util.MultiValueMap;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Map.Entry;
 
@@ -35,6 +39,9 @@ public class HistoryService {
 
     @Autowired
     private StoreLevelService storeLevelService;
+
+    @PersistenceContext
+    private EntityManager em;
 
 
 
@@ -118,4 +125,19 @@ public class HistoryService {
 
         return arr;
     }
+
+    @Transactional
+    public List<HistoryResponse> findThreeByCID(Long cid) {
+        List<History> histories = em.createQuery("select h from History h where h.customerId = " + cid + " and h.savedPoint != " + 0 + " order by h.created_at desc").setMaxResults(3).getResultList();
+        return histories.stream().map(HistoryResponse::from).collect(Collectors.toList());
+    }
+
+
+//    @Transactional
+//    public List<Integer> findDailyHistory(Long customerId) {
+//        List<Integer> histories = historyRepository.findDailyHistory(customerId);
+//        System.out.println("histories = " + histories);
+//        return histories;
+//    }
+
 }

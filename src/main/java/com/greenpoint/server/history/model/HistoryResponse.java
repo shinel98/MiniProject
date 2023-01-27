@@ -1,10 +1,13 @@
 package com.greenpoint.server.history.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -17,6 +20,10 @@ public class HistoryResponse {
     private int savedPoint;
     private int usedPoint;
     private int currentPoint;
+    private String image;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime created_at;
 
 
 
@@ -26,6 +33,8 @@ public class HistoryResponse {
                 .savedPoint(history.getSavedPoint())
                 .usedPoint(history.getUsedPoint())
                 .currentPoint(history.getCurrentPoint())
+                .image(history.getStore().getImage())
+                .created_at(history.getCreated_at())
                 .build();
     }
 
