@@ -62,24 +62,22 @@ public class UserService {
     public Customer saveUser(String token) {
 
         //(1)
-        Customer customer;
+        KakaoProfile profile = findProfile(token);
 
-        KaKaoprofile profile = findProfile(token);
-        //(2)
-        Customer user = customerRepository.findByNickname(profile.getKakao_account().getEmail());
+        Customer user = customerRepository.findByKakao_Token(token);
 
-        //(3)
         if(user == null) {
-            user = User.builder()
-                    .kakaoId(profile.getId())
-                    //(4)
-                    .kakaoProfileImg(profile.getKakao_account().getProfile().getProfile_image_url())
-                    .kakaoNickname(profile.getKakao_account().getProfile().getNickname())
-                    .kakaoEmail(profile.getKakao_account().getEmail())
-                    //(5)
-                    .userRole("ROLE_USER").build();
-
-            userRepository.save(user);
+//            user = Customer.builder()
+//                    .kakaoId(profile.getId())
+//                    //(4)
+//                    .kakaoProfileImg(profile.getKakao_account().getProfile().getProfile_image_url())
+//                    .kakaoNickname(profile.getKakao_account().getProfile().getNickname())
+//                    .kakaoEmail(profile.getKakao_account().getEmail())
+//                    //(5)
+//                    .userRole("ROLE_USER").build();
+            Customer newUser = new Customer();
+            newUser.insertUser(token, profile.getProperties().getNickname(), profile.getProperties().getProfile_image());
+            customerRepository.save(newUser);
         }
 
         return user;
