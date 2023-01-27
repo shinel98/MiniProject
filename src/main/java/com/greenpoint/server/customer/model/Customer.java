@@ -28,5 +28,8 @@ public class Customer extends BaseEntity {
     private int point;
     private int totalPoint;
 
+    public void insertUserToken(String token){
+        this.kakao_token = token;
+    }
 
 }
