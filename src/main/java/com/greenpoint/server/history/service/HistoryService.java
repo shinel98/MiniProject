@@ -12,6 +12,9 @@ import com.greenpoint.server.storeLevel.service.StoreLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,9 @@ public class HistoryService {
 
     @Autowired
     private StoreLevelService storeLevelService;
+
+    @PersistenceContext
+    private EntityManager em;
 
 
 
@@ -60,9 +66,17 @@ public class HistoryService {
     }
 
     @Transactional
-    public List<Integer> findDailyHistory(Long customerId) {
-        List<Integer> histories = historyRepository.findDailyHistory(customerId);
-        System.out.println("histories = " + histories);
-        return histories;
+    public List<HistoryResponse> findThreeByCID(Long cid) {
+        List<History> histories = em.createQuery("select h from History h where h.customerId = " + cid + " order by h.created_at desc").setMaxResults(3).getResultList();
+        return histories.stream().map(HistoryResponse::from).collect(Collectors.toList());
     }
+
+
+//    @Transactional
+//    public List<Integer> findDailyHistory(Long customerId) {
+//        List<Integer> histories = historyRepository.findDailyHistory(customerId);
+//        System.out.println("histories = " + histories);
+//        return histories;
+//    }
+
 }

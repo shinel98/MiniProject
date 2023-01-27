@@ -41,10 +41,19 @@ public class HistoryController {
         Long res = historyService.create(History.from(store, request), customer);
         return ResponseEntity.ok(res);
     }
-    @GetMapping(value="/dailyHistory")
-    public List<Integer> readDailyHistory(@RequestParam("customerId") Long customerId){
-        List<Integer> histories = historyService.findDailyHistory(customerId);
-        return histories;
+
+    @GetMapping(value="/history/three/{cid}")
+    public ResponseEntity<List<HistoryResponse>> findThreeByCID(@PathVariable Long cid){
+        List<HistoryResponse> res = historyService.findThreeByCID(cid);
+        return ResponseEntity.ok(res);
     }
+
+
+//    @GetMapping(value="/dailyHistory")
+//    public List<Integer> readDailyHistory(@RequestParam("customerId") Long customerId){
+//        List<Integer> histories = historyService.findDailyHistory(customerId);
+//        return histories;
+//    }
+
 
 }
