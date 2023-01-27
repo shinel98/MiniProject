@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenpoint.server.auth.model.KakaoProfile;
+import com.greenpoint.server.auth.model.KakaoProfile;
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,9 @@ public class UserService {
         user = customerRepository.findByKakaoToken(token);
         if(user == null) {
             Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
-            customerRepository.save(newUser);
             obArr[0] = newUser;
             obArr[1] = false;
+//            customerRepository.save(newUser);
             return obArr;
         }
 
@@ -73,7 +74,6 @@ public class UserService {
 
         return restTemplate.postForObject(url, request, String.class);
     }
-
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
         Customer user;
         String token = param.get("token");
