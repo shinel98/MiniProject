@@ -5,6 +5,7 @@ import com.greenpoint.server.common.BaseEntity;
 import com.greenpoint.server.history.model.History;
 import com.greenpoint.server.menu.model.Menu;
 import com.greenpoint.server.point.model.Point;
+import com.greenpoint.server.storeLevel.model.StoreLevel;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -34,6 +35,8 @@ public class Store extends BaseEntity {
     private double latitude;
     private double longitude;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private StoreLevel storeLevel;
     public static Store from(StoreRequest request){
         return Store.builder()
                 .loginID(request.getLoginID())
