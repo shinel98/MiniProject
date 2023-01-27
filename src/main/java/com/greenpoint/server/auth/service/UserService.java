@@ -1,9 +1,10 @@
-
 package com.greenpoint.server.auth.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greenpoint.server.auth.model.KakaoProfile;
+import com.greenpoint.server.auth.repository.UserRepository;
 import com.greenpoint.server.customer.model.Customer;
 import com.greenpoint.server.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 
 import java.sql.SQLOutput;
 
@@ -23,8 +23,7 @@ import java.util.HashMap;
 @Service
 public class UserService {
     @Autowired
-    private CustomerRepository customerRepository;
-
+    CustomerRepository customerRepository;
 
     public Object[] saveUser(String token) {
 
@@ -51,7 +50,6 @@ public class UserService {
             Customer newUser = Customer.from(token, name.substring(1, name.length() - 1), imageUrl.substring(1, imageUrl.length() - 1));
             obArr[0] = newUser;
             obArr[1] = false;
-//            customerRepository.save(newUser);
             return obArr;
         }
 
@@ -75,8 +73,8 @@ public class UserService {
 
         return restTemplate.postForObject(url, request, String.class);
     }
+
     public Boolean getUserInfoByForm(HashMap<String, String> param) {
-        // 닉네임 , 전화번호
         Customer user;
         String token = param.get("token");
         System.out.println("token = " + token);

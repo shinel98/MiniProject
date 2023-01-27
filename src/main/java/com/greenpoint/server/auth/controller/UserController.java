@@ -48,7 +48,6 @@ public class UserController {
         return ResponseEntity.ok(loginResponse);
     }
 
-
     @PostMapping("/makeAccount")
     public ResponseEntity<AccountResponse> makeAccount(@RequestBody HashMap<String, String> param) {
         Boolean result;
@@ -75,4 +74,6 @@ public class UserController {
         }
         return resultCode;
     }
+
 }
+
