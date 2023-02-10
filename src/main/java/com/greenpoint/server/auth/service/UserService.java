@@ -27,7 +27,6 @@ public class UserService {
     private CustomerRepository customerRepository;
     @Autowired
     private LevelService levelService;
-
     public Object[] saveUser(String token) {
 
         Object[] obArr = new Object[2];
